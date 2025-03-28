@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopfil{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-9">
+                <h2 class="mb-4">Все товары</h2>
+
+                {% if items|length > 0 %}
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                        {% for product in items %}
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    <img src="{{ product.imageUrl ?? 'https://серебро.рф/img/placeholder.png' }}"
+                                         class="card-img-top p-3" alt="{{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text text-muted">{{ product.description ?? 'Описание отсутствует' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        Товары отсутствуют
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
