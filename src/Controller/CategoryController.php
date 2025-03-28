@@ -56,28 +56,4 @@ final class CategoryController extends AbstractController
 
 
 
-//class CategoryController extends AbstractController
 
-//    #[Route('/category/{id}', name: 'app_category')]
-//    public function show(int $id, EntityManagerInterface $em): Response
-//    {
-//        // 1. Получаем категорию по ID
-//        $category = $em->getRepository(Category::class)->find($id);
-//
-//        if (!$category) {
-//            throw $this->createNotFoundException('Категория не найдена');
-//        }
-//
-//        // 2. Получаем все категории для меню
-//        $categories = $em->getRepository(Category::class)->findAll();
-//
-//        // 3. Получаем товары только для текущей категории
-//        $products = $em->getRepository(Product::class)
-//            ->findBy(['categoryId' => $category]);
-//        return $this->render('category/index.html.twig', [
-//            'current_category' => $category,
-//            'categories' => $categories,
-//            'products' => $products,
-//        ]);
-//    }
-//}
