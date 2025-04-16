@@ -2,7 +2,50 @@
 
 {% block title %}Shopfil{% endblock %}
 
-{% block body %}
+    {% block stylesheets %}
+        {{ parent() }} Важно: сохраняет стили из базового шаблона
+        <link rel="stylesheet" href="{{ asset('styles/styleTableCentra') }}">
+
+    {% endblock %}
+{% block body %}  
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Изображение</th>
+                <th>Назначение</th>
+                <th>Заголовок</th>
+                <th>Подзаголовок</th>
+                <th>Ссылка</th>
+            </tr>
+        </thead>
+        {# <tbody>
+            {% for entry in items %}
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>
+                        {% if entry.image %}
+                            <img src="{{ entry.image.url }}" width="100" alt="{{ entry.title }}">
+                        {% endif %}
+                    </td>
+                    <td>{{ entry.purpose }}</td>
+                    <td>{{ entry.title }}</td>
+                    <td>{{ entry.subtitle }}</td>
+                    <td>
+                        {% if entry.link %}
+                            <a href="{{ entry.link }}" target="_blank">Перейти</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody> #}
+    </table>
+
+    
+</div>
+
+
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-9">
@@ -10,6 +53,7 @@
 
                 {% if items|length > 0 %}
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+
                         {% for product in items %}
                             <div class="col">
                                 <div class="card h-100 shadow-sm">
@@ -22,6 +66,25 @@
                                 </div>
                             </div>
                         {% endfor %}
+
+                        {% if pagination is defined and pagination.total_pages > 1 %}
+                            <nav class='pagination '>
+
+                                {% if pagination.has_previous_page %}
+                                    <a href="{{ path('app_my', {'page': pagination.current_page - 1}) }}"
+                                       class="btn btn-outline-primary me-2 ">Предыдущая</a>
+                                {% endif %}
+
+                                <span class="mx-2 align-self-center">
+                                Страница {{ pagination.current_page }} из {{ pagination.total_pages }}
+                                </span>
+                                {% if pagination.has_next_page %}
+                                    <a href="{{ path('app_my', {'page': pagination.current_page + 1 }) }}"
+                                        class="btn btn-outline-primary ms-2>"
+                                        Следующая</a>
+                                {% endif %}
+                            </nav>
+                        {% endif %}
                     </div>
                 {% else %}
                     <div class="alert alert-info">

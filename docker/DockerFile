@@ -1,0 +1,14 @@
+FROM php:8.2-fpm
+
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev
+
+# Основные расширения для MySQL
+RUN docker-php-ext-install pdo_mysql mysqli zip exif pcntl bcmath gd sockets
+
+WORKDIR /var/www/html

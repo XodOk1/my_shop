@@ -1,0 +1,50 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/DockerFile
+    volumes:
+      - .:/var/www/html
+      - ./var:/var/www/html/var # Отдельно монтируем var для кеша
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      DATABASE_URL: mysql://${MYSQL_USER:-symfony}:${MYSQL_PASSWORD:-password}@mysql:3306/${MYSQL_DATABASE:-symfony_db}?serverVersion=8.0
+    depends_on:
+      mysql:
+        condition: service_healthy # Ждем готовности MySQL
+    restart: unless-stopped # Автоперезапуск при падении
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    volumes:
+      - ./public:/var/www/html/public:ro # Только чтение
+      - ./home/roman/my_shop/docker/nginx/default.conf
+    depends_on:
+      - php
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-symfony_db}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: 'localhost '
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d # Кастомные конфиги
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+    driver: local
