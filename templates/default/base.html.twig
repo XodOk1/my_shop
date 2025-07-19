@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}WELCOME!!!{% endblock %}</title>
+        <link rel="icon" href="">
+        {% block stylesheets %}
+            {{ ux_controller_link_tags() }}
+        {% endblock %}
+        {% block javascripts %}
+            {% block importmap %}
+                {{ importmap('app') }}
+            {% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+      {% block body_1 %}{% endblock %}
+{% block body_2 %}{% endblock %}
+    </body>
+</html>

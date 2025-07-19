@@ -1,5 +1,15 @@
 <?php
 // src/Form/MyFormType.php
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
+class MyForm
+{
 public function buildForm(FormBuilderInterface $builder, array $options)
 {
     $builder
@@ -15,4 +25,5 @@ public function buildForm(FormBuilderInterface $builder, array $options)
             'attr' => ['class' => 'form-check-input'],
             'label_attr' => ['class' => 'form-check-label']
         ]);
+}
 }

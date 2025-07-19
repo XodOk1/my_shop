@@ -1,48 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Shopfil{% endblock %}
-
-    {% block stylesheets %}
-        {{ parent() }} Важно: сохраняет стили из базового шаблона
-        <link rel="stylesheet" href="{{ asset('styles/styleTableCentra') }}">
-
-    {% endblock %}
 {% block body %}  
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Изображение</th>
-                <th>Назначение</th>
-                <th>Заголовок</th>
-                <th>Подзаголовок</th>
-                <th>Ссылка</th>
-            </tr>
-        </thead>
-        {# <tbody>
-            {% for entry in items %}
-                <tr>
-                    <td>{{ entry.id }}</td>
-                    <td>
-                        {% if entry.image %}
-                            <img src="{{ entry.image.url }}" width="100" alt="{{ entry.title }}">
-                        {% endif %}
-                    </td>
-                    <td>{{ entry.purpose }}</td>
-                    <td>{{ entry.title }}</td>
-                    <td>{{ entry.subtitle }}</td>
-                    <td>
-                        {% if entry.link %}
-                            <a href="{{ entry.link }}" target="_blank">Перейти</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody> #}
-    </table>
-
-    
 </div>
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -65,7 +21,7 @@
                             </div>
                         {% endfor %}
 
-                        {% if pagination is defined and pagination.total_pages > 1 %}
+                       {% if pagination is defined and pagination.total_pages > 1 %}
                             <nav class='pagination '>
 
                                 {% if pagination.has_previous_page %}
@@ -79,7 +35,7 @@
                                 {% if pagination.has_next_page %}
                                     <a href="{{ path('app_my', {'page': pagination.current_page + 1 }) }}"
                                         class="btn btn-outline-primary ms-2>"
-                                        Следующая</a>
+                                        Следующая </a>
                                 {% endif %}
                             </nav>
                         {% endif %}
@@ -92,4 +48,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}  
