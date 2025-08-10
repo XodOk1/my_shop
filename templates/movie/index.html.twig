@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie index{% endblock %}
+
+{% block body %}
+    <h1>Movie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Synopsis</th>
+                <th>ReleaseYear</th>
+                <th>DurationSeconds</th>
+                <th>StorageBasePath</th>
+                <th>HlsMasterUrl</th>
+                <th>PosterUrl</th>
+                <th>AudioLanguages</th>
+                <th>RatingAvg</th>
+                <th>RatingCount</th>
+                <th>AgeRating</th>
+                <th>Status</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ movie.id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.slug }}</td>
+                <td>{{ movie.synopsis }}</td>
+                <td>{{ movie.releaseYear }}</td>
+                <td>{{ movie.durationSeconds }}</td>
+                <td>{{ movie.storageBasePath }}</td>
+                <td>{{ movie.hlsMasterUrl }}</td>
+                <td>{{ movie.posterUrl }}</td>
+                <td>{{ movie.audioLanguages ? movie.audioLanguages|join(', ') : '' }}</td>
+                <td>{{ movie.ratingAvg }}</td>
+                <td>{{ movie.ratingCount }}</td>
+                <td>{{ movie.ageRating }}</td>
+                {# <td>{{ movie.status }}</td> #}
+                <td>{{ movie.createdAt ? movie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ movie.updatedAt ? movie.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_movie_show', {'id': movie.id}) }}">show</a>
+                    <a href="{{ path('app_movie_edit', {'id': movie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_movie_new') }}">Create new</a>
+{% endblock %}

@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Blog;
+use App\Entity\SubtitleTrack;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Blog>
+ * @extends ServiceEntityRepository<SubtitleTrack>
  */
-class BlogRepository extends ServiceEntityRepository
+class SubtitleTrackRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Blog::class);
+        parent::__construct($registry, SubtitleTrack::class);
     }
 
     //    /**
-    //     * @return Blog[] Returns an array of Blog objects
+    //     * @return SubtitleTrack[] Returns an array of SubtitleTrack objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
+    //            ->orderBy('s.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Blog
+    //    public function findOneBySomeField($value): ?SubtitleTrack
     //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

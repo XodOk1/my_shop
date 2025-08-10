@@ -24,3 +24,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    # App\MessageHandler\TranscodeMessageHandler:
+    #     arguments:
+    #         $ingestStorage: '@flysystem.storage.ingest'
+    #         $mediaStorage:  '@flysystem.storage.media'
+
+
+    # League\Flysystem\FilesystemOperator $ingestStorage: '@flysystem.storage.ingest'
+    # League\Flysystem\FilesystemOperator $mediaStorage:  '@flysystem.storage.media'

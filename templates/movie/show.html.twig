@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie{% endblock %}
+
+{% block body %}
+    <h1>Movie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ movie.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ movie.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ movie.slug }}</td>
+            </tr>
+            <tr>
+                <th>Synopsis</th>
+                <td>{{ movie.synopsis }}</td>
+            </tr>
+            <tr>
+                <th>ReleaseYear</th>
+                <td>{{ movie.releaseYear }}</td>
+            </tr>
+            <tr>
+                <th>DurationSeconds</th>
+                <td>{{ movie.durationSeconds }}</td>
+            </tr>
+            <tr>
+                <th>StorageBasePath</th>
+                <td>{{ movie.storageBasePath }}</td>
+            </tr>
+            <tr>
+                <th>HlsMasterUrl</th>
+                <td>{{ movie.hlsMasterUrl }}</td>
+            </tr>
+            <tr>
+                <th>PosterUrl</th>
+                <td>{{ movie.posterUrl }}</td>
+            </tr>
+            <tr>
+                <th>AudioLanguages</th>
+                <td>{{ movie.audioLanguages ? movie.audioLanguages|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>RatingAvg</th>
+                <td>{{ movie.ratingAvg }}</td>
+            </tr>
+            <tr>
+                <th>RatingCount</th>
+                <td>{{ movie.ratingCount }}</td>
+            </tr>
+            <tr>
+                <th>AgeRating</th>
+                <td>{{ movie.ageRating }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ movie.status }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ movie.createdAt ? movie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ movie.updatedAt ? movie.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_movie_index') }}">back to list</a>
+
+    <a href="{{ path('app_movie_edit', {'id': movie.id}) }}">edit</a>
+
+    {{ include('movie/_delete_form.html.twig') }}
+{% endblock %}
