@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Путевые листы</h1>
+
+
+	<hr>
+	<hr>
+	<turbo-stream action="append" target="trip_sheets">
+		<template>
+			<button href="{{ path('trip_sheet_create') }}">Создать</button>
+
+
+		</template>
+	</turbo-stream>
+
+	<div id="trip_sheets" class='flex-column-m'>
+		{{ dump(tripSheets)}}
+		{% for sheet in tripSheets %}
+
+			<div>{{ sheet.id}}</div>
+			<div>{{ sheet.name}}</div>
+
+		{% else %}
+			<div>
+				Путевые листы не найдены
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

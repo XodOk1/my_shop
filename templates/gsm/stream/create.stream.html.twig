@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<turbo-stream action="append" target="trip_sheets">
+		<template>
+			{# <div id="trip_sheet_{{ tripSheet.id }}">
+			      <div>#{{ tripSheet.id }} — {{ tripSheet.name }}</div>
+			      {% if tripSheet.route %}
+			        <div>Маршрут: {{ tripSheet.route }}</div>
+			      {% endif %} #}
+		</div>
+	</template>
+</turbo-stream>{% endblock %}

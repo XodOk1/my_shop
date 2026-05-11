@@ -1,0 +1,14 @@
+<div id="flash_zone"></div>
+
+{{ form(form) }}
+
+	{# внизу файла #}
+	{% block success_stream %}
+		<turbo-stream action="replace" targets="#flash_zone">
+			<template>
+				<div class="alert alert-success">
+					Задача создана: "{{ task }}"
+				</div>
+			</template>
+		</turbo-stream>
+	{% endblock %}

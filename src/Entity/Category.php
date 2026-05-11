@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Product\Product;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'category')]
-// #[ORM\Index(columns: ['slug'], name: 'idx_category_slug')]
 class Category
 {
     #[ORM\Id]
@@ -23,90 +23,43 @@ class Category
     #[ORM\Column(length: 140, unique: true)]
     private string $slug;
 
-    // /**
-    //  * @var Collection<int, Product>
-    //  */
-    // #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'categoryId')]
-    // private Collection $products;
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'category')]
+    private Collection $products;
 
-    /**
-     * @var Collection<int, Movie>
-     */
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'categories')]
     private Collection $movies;
 
     public function __construct()
     {
-        // $this->products = new ArrayCollection();
-        $this->movies = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->movies   = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+    public function getName(): string { return $this->name; }
 
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
-        public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
+    public function getSlug(): string { return $this->slug; }
 
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
-    // /**
-    //  * @return Collection<int, Product>
-    //  */
-    // public function getProducts(): Collection
-    // {
-    //     return $this->products;
-    // }
+    /** @return Collection<int, Product> */
+    public function getProducts(): Collection { return $this->products; }
 
-    // public function addProduct(Product $product): static
-    // {
-    //     if (!$this->products->contains($product)) {
-    //         $this->products->add($product);
-    //         $product->setCategoryId($this);
-    //     }
+    public function getProductCount(): int { return $this->products->count(); }
 
-    //     return $this;
-    // }
-
-    // public function removeProduct(Product $product): static
-    // {
-    //     if ($this->products->removeElement($product)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($product->getCategoryId() === $this) {
-    //             $product->setCategoryId(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
-
-    /**
-     * @return Collection<int, Movie>
-     */
-    public function getMovies(): Collection
-    {
-        return $this->movies;
-    }
+    /** @return Collection<int, Movie> */
+    public function getMovies(): Collection { return $this->movies; }
 
     public function addMovie(Movie $movie): static
     {
@@ -114,7 +67,6 @@ class Category
             $this->movies->add($movie);
             $movie->addCategory($this);
         }
-
         return $this;
     }
 
@@ -123,7 +75,6 @@ class Category
         if ($this->movies->removeElement($movie)) {
             $movie->removeCategory($this);
         }
-
         return $this;
     }
 }

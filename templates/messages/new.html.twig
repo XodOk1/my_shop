@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessagesController!
+{% endblock %}
+
+{% block body %}
+	<h1>Contacts</p>
+{{ form_start(form) }}
+
+	{{ form_row(form.name)}}
+	{{ form_row(form.email)}}
+	{{ form_row(form.message)}}
+	<button class="btn btn-outline-success" type='submit' formnovalidate>
+		Отправить форму
+	</button>
+<div data-confetti> asdas</div>
+
+	{{ form_end(form) }}
+{% endblock %}

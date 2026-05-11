@@ -70,9 +70,9 @@ class Movie
     #[Groups(['movie:read', 'movie:write'])]
     private ?string $posterUrl = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    #[Groups(['movie:read', 'movie:write'])]
-    private array $audioLanguages = [];
+    // #[ORM\Column(type: Types::ARRAY)]
+    // #[Groups(['movie:read', 'movie:write'])]
+    // private array $audioLanguages = [];
 
     // Категории/жанры для поиска и фильтров
     /**

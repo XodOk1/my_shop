@@ -1,0 +1,28 @@
+
+
+<body>
+  <h1>Голосовое управление умным домом</h1>
+  <p>Говори команды типа: <b>«дом включи свет», «дом выключи телевизор», «дом включи чайник»</b></p>
+
+  <button id="startBtn">🎤 Начать слушать</button>
+  <button id="stopBtn">⏹️ Остановить</button>
+
+  <div id="status">Микрофон выключен</div>
+  <div id="log"></div>
+
+  <script src="voice.js"></script>
+</body>
+<style>
+    body { font-family: sans-serif; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; }
+    #status { margin-top: 10px; color: #555; }
+    #log {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+  </style>

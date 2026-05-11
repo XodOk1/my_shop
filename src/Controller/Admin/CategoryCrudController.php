@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CategoryCrudController extends AbstractCrudController
@@ -15,14 +15,22 @@ class CategoryCrudController extends AbstractCrudController
         return Category::class;
     }
 
-    /*
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Категория')
+            ->setEntityLabelInPlural('Категории')
+            ->setDefaultSort(['name' => 'ASC'])
+            ->showEntityActionsInlined();
+    }
+
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield TextField::new('name', 'Название');
+        yield TextField::new('slug', 'Slug')
+            ->setHelp('Латиница, дефисы. Например: molded, container, plaster');
+        yield IntegerField::new('productCount', 'Товаров')
+            ->onlyOnIndex()
+            ->formatValue(fn($v) => $v ?: 0);
     }
-    */
 }

@@ -23,6 +23,9 @@ return [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
     '@hotwired/turbo' => [
-        'version' => '7.3.0',
+        'version' => '8.0.20',
+    ],
+    'canvas-confetti' => [
+        'version' => '1.9.4',
     ],
 ];
