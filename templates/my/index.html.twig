@@ -44,8 +44,6 @@
 
     
 </div>
-
-
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-9">
@@ -71,8 +69,8 @@
                             <nav class='pagination '>
 
                                 {% if pagination.has_previous_page %}
-                                    <a href="{{ path('app_my', {'page': pagination.current_page - 1}) }}"
-                                       class="btn btn-outline-primary me-2 ">Предыдущая</a>
+                                    <button href="{{ path('app_my', {'page': pagination.current_page - 1}) }}"
+                                       class="btn btn-outline-primary me-2 ">Предыдущая</button>
                                 {% endif %}
 
                                 <span class="mx-2 align-self-center">

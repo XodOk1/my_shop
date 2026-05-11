@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Product;
+use App\Entity\Product\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +16,55 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    //    /**
-    //     * @return Product[] Returns an array of Product objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return array{items: Product[], total: int}
+     */
+    public function findWithFilters(
+        ?string $category = null,
+        ?int    $maxPrice = null,
+        ?string $scent    = null,
+        string  $sort     = 'popular',
+        int     $page     = 1,
+        int     $limit    = 12
+    ): array {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->addSelect('c')
+            ->leftJoin('p.images', 'i')
+            ->addSelect('i');
 
-    //    public function findOneBySomeField($value): ?Product
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($category && $category !== 'all') {
+            $qb->andWhere('c.slug = :category')
+               ->setParameter('category', $category);
+        }
+
+        if ($maxPrice !== null && $maxPrice > 0) {
+            // maxPrice приходит в рублях, в БД — копейки
+            $qb->andWhere('p.price <= :maxPrice')
+               ->setParameter('maxPrice', $maxPrice * 100);
+        }
+
+        if ($scent) {
+            // scents хранятся как JSON-массив: ["berg","pine",...]
+            $qb->andWhere('p.scents LIKE :scent')
+               ->setParameter('scent', '%"' . $scent . '"%');
+        }
+
+        match ($sort) {
+            'price-asc'  => $qb->orderBy('p.price', 'ASC'),
+            'price-desc' => $qb->orderBy('p.price', 'DESC'),
+            'newest'     => $qb->orderBy('p.createdAt', 'DESC'),
+            default      => $qb->orderBy('p.id', 'DESC'),
+        };
+
+        $total = count($qb->getQuery()->getResult());
+
+        $items = $qb
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ['items' => $items, 'total' => $total];
+    }
 }

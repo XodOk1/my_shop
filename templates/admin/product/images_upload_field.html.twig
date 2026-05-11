@@ -1,0 +1,89 @@
+{# Кастомное поле для загрузки и управления фотографиями товара #}
+
+{% set product = entity.instance is defined ? entity.instance : null %}
+
+<div class="product-images-field">
+
+  {# ── Существующие фотографии ── #}
+  {% if product and product.images is not empty %}
+  <div class="existing-images-block">
+    <p class="images-label">Текущие фотографии</p>
+    <div class="images-grid">
+      {% for image in product.images %}
+      <div class="image-card" id="img-card-{{ image.id }}">
+        <img src="/uploads/products/{{ image.filename }}" alt="Фото {{ loop.index }}" />
+        <form
+          method="POST"
+          action="{{ path('admin_product_image_delete', {id: image.id}) }}"
+          class="delete-image-form"
+          onsubmit="return confirm('Удалить эту фотографию?')"
+        >
+          <input type="hidden" name="_token" value="{{ csrf_token('delete_image_' ~ image.id) }}" />
+          <input type="hidden" name="_referer" value="{{ app.request.uri }}" />
+          <button type="submit" class="delete-image-btn" title="Удалить">
+            <i class="fas fa-times"></i>
+          </button>
+        </form>
+        <div class="image-order">{{ loop.index }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# ── Загрузка новых ── #}
+  <div class="upload-block">
+    <label class="upload-area" id="upload-area">
+      {{ form_widget(field.formView) }}
+      <div class="upload-placeholder" id="upload-placeholder">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span>Перетащите фото сюда или <u>выберите файлы</u></span>
+        <small>JPG, PNG, WebP · можно несколько</small>
+      </div>
+      <div class="upload-preview" id="upload-preview"></div>
+    </label>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const input    = document.querySelector('.product-image-upload');
+  const area     = document.getElementById('upload-area');
+  const preview  = document.getElementById('upload-preview');
+  const holder   = document.getElementById('upload-placeholder');
+
+  if (!input) return;
+
+  function renderPreviews(files) {
+    preview.innerHTML = '';
+    if (!files.length) { holder.style.display = ''; return; }
+    holder.style.display = 'none';
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const div = document.createElement('div');
+        div.className = 'preview-thumb';
+        div.innerHTML = `<img src="${e.target.result}" /><span>${file.name}</span>`;
+        preview.appendChild(div);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  input.addEventListener('change', () => renderPreviews(input.files));
+
+  ['dragover','dragenter'].forEach(ev => area.addEventListener(ev, e => {
+    e.preventDefault(); area.classList.add('drag-over');
+  }));
+  ['dragleave','drop'].forEach(ev => area.addEventListener(ev, () => {
+    area.classList.remove('drag-over');
+  }));
+  area.addEventListener('drop', e => {
+    e.preventDefault();
+    input.files = e.dataTransfer.files;
+    renderPreviews(input.files);
+  });
+})();
+</script>

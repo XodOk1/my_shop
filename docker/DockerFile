@@ -1,4 +1,6 @@
-FROM php:8.2-fpm
+FROM ubuntu:22.04
+# FROM php:8.4-fpm
+
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -8,7 +10,10 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev
 
+pecl install xdebug
+docker-php-ext-enable xdebug
+
 # Основные расширения для MySQL
 RUN docker-php-ext-install pdo_mysql mysqli zip exif pcntl bcmath gd sockets
 
-WORKDIR /var/www/html
+WORKDIR /var/www/

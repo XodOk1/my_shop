@@ -1,17 +1,42 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+   
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+        App\Entity\User\User:
+            algorithm: auto
+
     providers:
-        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User\User
+                property: email
+
+        cabinet_provider:
+            entity:
+                class: App\Entity\User\User # это сущность юзера который заходит через oauth
+                property: vkId
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            jwt: ~    # ~ означает "использовать настройки по умолчанию"
+
         main:
-            lazy: true
-            provider: users_in_memory
+            # lazy: true
+            # provider: users_in_memory
+            
+            pattern: ^/
+            stateless: false
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                target: app_login  
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -19,11 +44,22 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+       
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login,      roles: PUBLIC_ACCESS }
+        - { path: ^/api/register,   roles: PUBLIC_ACCESS }
+        - { path: ^/api/check,      roles: PUBLIC_ACCESS }
+        # Каталог публичен — читать может кто угодно
+        - { path: ^/api/products,   roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/categories, roles: PUBLIC_ACCESS, methods: [GET] }
+        # Корзина и остальное — только авторизованным
+        - { path: ^/api,            roles: ROLE_USER }
+        - { path: ^/login,          roles: PUBLIC_ACCESS }
+        - { path: ^/admin,          roles: ROLE_ADMIN }
+
+
 
 when@test:
     security:

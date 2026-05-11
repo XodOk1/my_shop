@@ -1,0 +1,57 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Дашборд{% endblock %}
+
+{% block main %}
+<div class="admin-dashboard">
+
+  {# ── Статистика ── #}
+  <div class="stats-grid">
+    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProductCrudController').generateUrl() }}" class="stat-card stat-blue">
+      <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ productCount }}</div>
+        <div class="stat-label">Товаров всего</div>
+      </div>
+    </a>
+
+    <div class="stat-card stat-green">
+      <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ inStock }}</div>
+        <div class="stat-label">В наличии</div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-red">
+      <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ outOfStock }}</div>
+        <div class="stat-label">Нет в наличии</div>
+      </div>
+    </div>
+
+    <a href="{{ ea_url().setController('App\\Controller\\Admin\\CategoryCrudController').generateUrl() }}" class="stat-card stat-yellow">
+      <div class="stat-icon"><i class="fas fa-tags"></i></div>
+      <div class="stat-body">
+        <div class="stat-value">{{ categoryCount }}</div>
+        <div class="stat-label">Категорий</div>
+      </div>
+    </a>
+  </div>
+
+  {# ── Быстрые действия ── #}
+  <div class="quick-actions">
+    <h5 class="qa-title">Быстрые действия</h5>
+    <div class="qa-grid">
+      <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProductCrudController').setAction('new').generateUrl() }}" class="qa-btn">
+        <i class="fas fa-plus-circle"></i> Добавить товар
+      </a>
+      <a href="{{ ea_url().setController('App\\Controller\\Admin\\CategoryCrudController').setAction('new').generateUrl() }}" class="qa-btn qa-btn-outline">
+        <i class="fas fa-tag"></i> Новая категория
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

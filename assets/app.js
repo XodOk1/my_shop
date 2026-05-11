@@ -8,5 +8,10 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/styleTableCentra.css';
 
+import "@hotwired/turbo";
+
+
+import { setProgressBarDelay } from '@hotwired/turbo';
+setProgressBarDelay(100);
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

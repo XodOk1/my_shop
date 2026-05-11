@@ -1,6 +1,6 @@
 <?php
 
-class ShopProduct
+class testShopProduct
 {
     private int $id = 0;
     public $numPages;

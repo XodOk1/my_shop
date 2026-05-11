@@ -1,0 +1,10 @@
+knpu_oauth2_client:
+    clients:
+        {}
+        # vk: (disabled — j4k/oauth2-vkontakte incompatible with PHP 8.3)
+        #     type: vkontakte
+        #     client_id: '%env(VK_CLIENT_ID)%'
+        #     client_secret: '%env(VK_CLIENT_SECRET)%'
+        #     redirect_route: api_auth_vk_callback
+        #     redirect_params: {}
+        # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration

@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	{# <h1>Home</h1>
+		<p>Lorem asdkjashfjksdn;g asjdfgadfghjapsodjgdghjopasp osapdfhdiouawhfeipjwnqafp waoipjephiwuqhfeyrhbg  irtgenbeginrbeginrthbg djkdfjknv k slkdcosmdosn   rejinirfnsdmf  sdjfnwjndfW</p>
+		<p>asdashdflkjwhefwhbeuhbaobdeuahbeuwhboawnfoijasbuiohfyfghsuybaowefbnowubfeo</p>
+	     #}
+
+	{# Кнопки с data-атрибутами #}
+		<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-type="all" data-name="Все данные"> Удалить все
+	</button>
+
+	<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal" data-type="waybill" data-name="Путевой лист №">
+		Удалить путевой лист
+	</button>
+
+	<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal" data-type="refuel" data-name="Заправку">
+		Удалить заправку
+	</button>
+
+
+	{# Модальное окно #}
+	<div class="modal fade" id="deleteModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Подтверждение удаления</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<p>Вы уверены, что хотите удалить:
+						<strong id="deleteName"></strong>?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<form id="deleteForm" method="post" style="display: inline;">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+						<button type="submit" class="btn btn-danger">Удалить</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	 <script>
+	document.addEventListener('DOMContentLoaded', function() {
+	    const deleteModal = document.getElementById('deleteModal');
+	    
+	    deleteModal.addEventListener('show.bs.modal', function(event) {
+	        const button = event.relatedTarget; // Кнопка, которая открыла модалку
+	        
+	        // Получаем данные из data-атрибутов
+	        const type = button.getAttribute('data-type');
+	        const id = button.getAttribute('data-id');
+	        const name = button.getAttribute('data-name');
+	        
+	        // Обновляем содержимое модалки
+	        const modalTitle = deleteModal.querySelector('#deleteName');
+	        modalTitle.textContent = name;
+	        
+	        // Формируем URL для удаления в зависимости от типа
+	        const form = deleteModal.querySelector('#deleteForm');
+	        let actionUrl = '';
+	        
+	        switch(type) {
+	            case 'all':
+	                break;
+	            case 'waybill':
+	                break;
+	            case 'refuel':
+	                break;
+	        }
+	        
+	        form.setAttribute('action', actionUrl);
+	    });
+	});
+	</script>
+
+
+{% endblock %}

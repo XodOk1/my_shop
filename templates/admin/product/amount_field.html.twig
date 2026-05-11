@@ -1,0 +1,8 @@
+{% set v = field.value %}
+{% if v is null %}
+    <span class="text-muted">—</span>
+{% elseif v > 0 %}
+    <span class="badge text-bg-success">{{ v }} шт</span>
+{% else %}
+    <span class="badge text-bg-danger">нет</span>
+{% endif %}
